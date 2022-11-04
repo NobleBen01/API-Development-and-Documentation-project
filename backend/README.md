@@ -71,6 +71,96 @@ One note before you delve into your tasks: for each endpoint, you are expected t
 
 You will need to provide detailed documentation of your API endpoints including the URL, request parameters, and the response body. Use the example below as a reference.
 
+
+### API Reference
+GETTING STARTED
+-Base URL: Our app can only run locally and is not hosted on a base url. The backend app is on http://127.0.0.1:5000/ which is a proxy in the frontend configuration.
+
+-Authentication: This version of the application does not require authentication or API keys
+
+
+ERROR HANDLING
+Errors are returned as JSON objects in the following format:
+{
+  'success': False,
+  'error': 422,
+  'message': 'unprocessable'
+}
+
+The API will return 2 main error types when requests fail:
+-422: Unprocessable
+-404: Resource not found
+
+
+ENDPOINTS
+`GET '/questions'`
+-This endpoint should return a list of questions,number of total questions, current category, categories.
+-Results are paginated in groups of 10. It includes an argument to choose page number starting from 1
+
+-Sample: curl http://127.0.0.1:5000/questions
+"questions":[
+  {
+    "answer":"Apollo 13",
+   "category":5,
+   "difficulty":4,
+   "id":2,
+   "question":"What movie earned Tom Hanks his third straight Oscar nomination, in 1996?"
+   },{
+    "answer":"Tom Cruise",
+    "category":5,
+    "difficulty":4,
+    "id":4,
+    "question":"What actor did author Anne Rice first denounce, then praise in the role of her beloved Lestat?"
+    },{
+    "answer":"Maya Angelou",
+    "category":4,
+    "difficulty":2,
+    "id":5,
+    "question":"Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
+    },{ 
+      "answer":"Edward Scissorhands",
+      "category":5,
+      "difficulty":3,
+      "id":6,
+      "question":"What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?"},
+
+`DELETE '/questions/{questions_id}'`
+-Deletes the question of the given ID if it exists. Returns the id of the deleted question, success value, total questions, and list based on current page number to update the frontend.
+-curl -X DELETE http://127.0.0.1:5000/questions/2
+
+{"deleted":2,"questions":[
+  {
+    "answer":"Tom Cruise",
+    "category":5,
+    "difficulty":4,
+    "id":4,
+    "question":"What actor did author Anne Rice first denounce, then praise in the role of her beloved Lestat?"
+    },{
+    "answer":"Maya Angelou",
+    "category":4,
+    "difficulty":2,
+    "id":5,
+    "question":"Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"},
+
+`POST '/questions'`
+-This endpoint posts a new question, which will require the question and answer text, category, and difficulty score.
+-Returns the id of the created question, success value, total questions, and  a list based on current page number to update the frontend.
+- curl http://127.0.0.1:5000/questions?page=3 -X POST -H 'Content-Type: appliction/json' -d "{'question': 'Who is the richest man in Nigeria?', 'answer': 'Aliko Dangote', 'difficulty': 2, 'category': 4}"  
+
+{
+"questions":[
+  {
+  "answer":"Aliko Dangote",
+   "category":4,
+   "difficulty":2,
+   "id":21,
+   "question":"Who is the richest man in Nigeria?"
+   }
+  ],
+    "success": True,
+    "created": 21,
+    "total_questions": 20,
+}        
 ### Documentation Example
 
 `GET '/api/v1.0/categories'`
